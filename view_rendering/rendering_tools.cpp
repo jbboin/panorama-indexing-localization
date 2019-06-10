@@ -1,5 +1,6 @@
 // Author Dmytro Bobkov, dmytro.bobkov@tum.de
-// Chair of Media Technology, Technical University of Munich, 2017-2018
+// Chair of Media Technology, Technical University of Munich, 2018-2019
+// Parts of these were done while being at research visit to group of Bernd Girod IVMS at Stanford University
 
 #include "rendering_tools.h"
 
@@ -138,12 +139,6 @@ parseInLocPanoramaPoses( const std::string& folder_with_poses,
 
 }
 
-
-/**
- * This is for stanford dataset pano/pose folder
- * @param folder_with_poses
- * @param pano_infos
- */
 void
 parsePanoramaPoses( const std::string& folder_with_poses,
                     std::map<std::string, Panorama>& pano_infos )

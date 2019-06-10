@@ -1,5 +1,7 @@
 // Author Dmytro Bobkov, dmytro.bobkov@tum.de
-// Chair of Media Technology, Technical University of Munich, 2017-2018
+// Chair of Media Technology, Technical University of Munich, 2018-2019
+// Parts of these were done while being at research visit to group of Bernd Girod IVMS at Stanford University
+
 #pragma once
 
 #include <iostream>

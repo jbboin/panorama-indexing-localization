@@ -1,8 +1,0 @@
-pyflann
-numpy
-faiss
-sklearn
-opencv-python==4.0.0.21
-argparse
-tqdm
-

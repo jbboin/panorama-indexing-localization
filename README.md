@@ -6,15 +6,15 @@ By Jean-Baptiste Boin (Stanford University), Dmytro Bobkov (Technical University
 
 *Paper under review*
 
+## Dependencies
 
+###  MATLAB
+Refer to mathworks website.
 
-## Install
+### Python with installed dependencies  
 
 **Prerequisites**:
 - MATLAB
-
-
-### Python with installed dependencies  
 
 #### Anaconda
 
@@ -32,7 +32,6 @@ In case you want to install it from source (not recommended!), you need the foll
 - Caffe with Python bindings. You can follow instructions from [here](https://gist.github.com/nikitametha/c54e1abecff7ab53896270509da80215), for example. 
 Also make sure that the installation path is included in the environment variable `$PYTHONPATH`.
 
-
 ## Dataset data
 
 ### Matterport 3D dataset
@@ -43,6 +42,7 @@ Request access to the [Matterport3D dataset](https://github.com/niessner/Matterp
 
 We use [WUSTL Indoor RGBD dataset](https://cvpr17.wijmans.xyz/data) and [InLoc queries](http://www.ok.sc.e.titech.ac.jp/INLOC) (usually abbreviated as the InLoc dataset in the rest of this README) as well as the related data we will generate in this project. Refer to prepare_datasets/download_inloc.py file.
 
+## Project setup
 
 **Step 1**: Clone the repository.
 
@@ -84,6 +84,8 @@ You will need to populate this new file with your own desired paths. (**NOTE:** 
     $ cd ../.. # return to the root directory after this
 
 Note that the project has the following dependencies: Eigen3, Boost1.4 and OpenCV.
+
+Tested on Ubuntu 16.04 64-bit and on Mac.
 
 ## Dataset preparation
 

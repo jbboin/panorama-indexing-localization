@@ -1,6 +1,6 @@
 # Author Dmytro Bobkov
 # Email dmytro.bobkov@tum.de
-# Modified on 28.02.2018
+# Modified on 28.06.2018
 
 cmake_minimum_required(VERSION 2.8)
 project(view_rendering)

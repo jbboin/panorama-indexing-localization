@@ -199,7 +199,7 @@ def main(args):
 
     flann = pyflann.FLANN()
     params = flann.build_index(dataset, algorithm="autotuned", target_precision=0.9, log_level="info", random_seed=1)
-    print params
+    print(params)
 
 
 if __name__ == '__main__':

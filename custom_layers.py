@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+""" Implementation of custom network layers
+    Author Jean Baptiste Boin, 2018
+"""
+
 import caffe
 import numpy as np
 
