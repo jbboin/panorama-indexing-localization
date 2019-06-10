@@ -21,7 +21,7 @@ Refer to mathworks website.
 Note: we use Python2.7 together with [Anaconda](https://www.anaconda.com/distribution/#linux). 
 
 Conda environment description for painless installation of all packages is given in conda_panorama.yml. Create a new environment by running the following command: `conda env create --file conda_panorama.yml` and thus all dependencies should be done. After that don't forget to run `conda activate panorama_test`.
-
+Make sure that the root directory is in pythonpath: `export PYTHONPATH=$PYTHONPATH:$(pwd)`
 #### Manual
 
 In case you want to install it from source (not recommended!), you need the following projects:
