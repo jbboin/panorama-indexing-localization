@@ -1,3 +1,5 @@
+
+
 import config
 
 import json
@@ -8,7 +10,7 @@ with open('data/room_labels.csv', mode='r') as f:
     reader = csv.reader(f)
     room_dict = dict(reader)
 
-for building in ['DUC1','DUC2']:
+for building in ['DUC1', 'DUC2']:
 
     json_input_file = os.path.join(config.INLOC_ROOT, building, 'view_total', 'view_poses.json')
     img_data = json.load(open(json_input_file))

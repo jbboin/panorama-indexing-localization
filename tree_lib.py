@@ -2,7 +2,6 @@ import numpy as np
 import os
 import sys
 import threading
-import json
 from collections import Counter
 from Queue import PriorityQueue
 import pyflann
@@ -21,7 +20,7 @@ class Node(object):
         self.children.append(obj)
 
 
-def compute_ap(matches, num_pos_matches=None):
+def compute_ap(matches: list, num_pos_matches: int = None):
     pos_indices = np.where(matches)[0]
     if num_pos_matches is None:
         num_pos_matches = len(pos_indices)
@@ -46,7 +45,7 @@ def compute_ap(matches, num_pos_matches=None):
     return a_p
 
 
-def compute_patk(matches, k):
+def compute_patk(matches: list, k: float) -> float:
     num_matches = 0
     for x in matches[:k]:
         if x:
@@ -510,7 +509,7 @@ def pq_evaluation(query_indices, query_id_to_positive_classes, view_info, querie
     print('%.2f,%.2f' % (m_a_p, m_pat1))
 
 
-def serialize_flann_index(index_file_name, dataset):
+def serialize_flann_index(index_file_name: str, dataset: np.ndarray):
     global captured_stdout
     # Create pipe and dup2() the write end of it on top of stdout, saving a copy
     # of the old stdout

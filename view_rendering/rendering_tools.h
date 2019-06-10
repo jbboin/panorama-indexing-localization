@@ -1,5 +1,5 @@
 // Author Dmytro Bobkov, dmytro.bobkov@tum.de
-// Chair of Media Technology, Technical University of Munich, 2017-2018
+// Chair of Media Technology, Technical University of Munich, 2018-2019
 #pragma once
 
 #include <iostream>
@@ -22,7 +22,7 @@ parsePanoramaFilenames( const std::string& in_pano_dir,
                         std::vector<std::string>& pano_filenames );
 
 /**
- * This is for stanford dataset pano/pose folder
+ * This is for dataset pano/pose folder
  * @param folder_with_poses
  * @param pano_infos
  */

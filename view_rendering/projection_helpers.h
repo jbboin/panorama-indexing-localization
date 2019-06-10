@@ -22,10 +22,6 @@
 
 namespace po = boost::program_options;
 
-
-#define ENABLE_LOG 0 //if set to 1 then images (including intermediate results) are shown in a pop-up window
-#define LOG(msg) std::cout << msg << std::endl //Logging function by writing LOG("something");
-
 struct Pose
 {
     Eigen::Quaternionf orientation;

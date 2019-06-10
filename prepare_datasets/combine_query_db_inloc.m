@@ -1,4 +1,4 @@
-clear all
+% clear all
 
 [~,inloc_root] = system("cd ..;python -c 'import config;print(config.INLOC_ROOT)'");
 inloc_root = deblank(inloc_root);
