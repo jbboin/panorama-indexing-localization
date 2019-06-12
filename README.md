@@ -100,7 +100,7 @@ The actual values that are printed in the console usually consist of a set of 3 
 
 **Step 1**: Sub-sampling experiment. Results reported in Sec. III.B. and Fig. 4.
 
-    $ ./evaluation_scripts/dataset_resampling_evaluation.sh
+    $ ./evaluation_scripts/dataset_subsampling_evaluation.sh
 
 **Step 2**: Aggregation experiment. Results reported in Sec. III.B. and Fig. 4.
 
