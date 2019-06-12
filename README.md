@@ -21,7 +21,7 @@ Refer to mathworks website.
 Note: we use Python2.7 together with [Anaconda](https://www.anaconda.com/distribution/#linux). 
 
 Conda environment description for painless installation of all packages is given in conda_panorama.yml. Create a new environment by running the following command: `conda env create --file conda_panorama.yml` and thus all dependencies should be done. After that don't forget to run `conda activate panorama_test`.
-Make sure that the root directory is in pythonpath: `export PYTHONPATH=$PYTHONPATH:$(pwd)`
+
 #### Manual
 
 In case you want to install it from source (not recommended!), you need the following projects:
@@ -140,9 +140,9 @@ The scripts for this part are located in `evaluation_scripts` and they are expec
 
 The actual values that are printed in the console usually consist of a set of 3 values: the number of descriptors, the mAP and the precision at 1. The mAP was the metric reported in our work, and these scripts will separately report results for the `DUC1` and `DUC2` part of the InLoc dataset. As mentioned, in order to get the final mAP results, it is necessary to compute a weighted average using the number of queries for each part. As such, the results that we reported are:
 
-    N1=130 # num queries in DUC1
-    N2=198 # num queries in DUC2
-    mAP  = (N2 * mAP(DUC1) + N1 * mAP(DUC2)) / (N1+N2)
+    N1 = 130 # num queries in DUC1
+    N2 = 198 # num queries in DUC2
+    mAP = (N2 * mAP(DUC1) + N1 * mAP(DUC2)) / (N1 + N2)
 
 **Step 1**: Sub-sampling experiment. Results reported in Sec. III.B. and Fig. 4 of the paper.
 
