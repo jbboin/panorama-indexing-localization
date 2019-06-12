@@ -13,7 +13,6 @@ By Jean-Baptiste Boin (Stanford University), Dmytro Bobkov (Technical University
 **Prerequisites**:
 - MATLAB
 - Caffe (with Python bindings). Make sure that the installation path is included in the environment variable `$PYTHONPATH`.
-- [pyflann](https://github.com/primetang/pyflann) (can be installed with [installed with pip](https://pypi.org/project/pyflann))
 - Request the [Matterport3D dataset](https://github.com/niessner/Matterport) (instructions are given on that project page). This will grant you access to a download script: `download_mp.py`. You should download this file and copy it to the `prepare_datasets` directory in this current repository.
 
 **Step 1**: Clone the repository.
@@ -33,7 +32,20 @@ You will need to populate this new file with your own desired paths. (**NOTE:** 
 
 **Step 4**: Download the `download_mp.py` Matterport download script and copy it to the `prepare_datasets` directory in this current repository.
 
-**Step 5**: Build the `view_rendering` CMake project included in this repository. We expect that the build directory will be located at `view_rendering/build`. The following commands can be used to build the project as we expect.
+**Step 5**: This repository includes a lightly modified version of the FLANN library, which allows us to get access to the internal structure of the built trees from our Python codes. We only modified the file `flann/src/cpp/flann/algorithms/kmeans_index.h`. Build this library as a CMake project. We expect that the build directory will be located at `flann/build`. The following commands can be used to build the project as we expect.
+
+    $ cd flann
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make
+    $ cd ../.. # return to the root directory after this
+
+**Step 6**: Add the modified FLANN library to the environment variable `$PYTHONPATH`.
+
+    $ export PYTHONPATH=$(pwd)/flann/src/python:$PYTHONPATH
+
+**Step 7**: Build the `view_rendering` CMake project included in this repository. We expect that the build directory will be located at `view_rendering/build`. The following commands can be used to build the project as we expect.
 
     $ cd view_rendering
     $ mkdir build
