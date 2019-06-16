@@ -28,7 +28,6 @@ In case you want to install it from source (not recommended!), you need the foll
 
 - Python with installed dependencies (described in requirements.txt). 
 - FAISS, install it by following instructions at https://github.com/facebookresearch/faiss/blob/master/INSTALL.md.
-- [Pyflann](https://github.com/primetang/pyflann) (can be installed with [installed with pip](https://pypi.org/project/pyflann))
 - Caffe with Python bindings. You can follow instructions from [here](https://gist.github.com/nikitametha/c54e1abecff7ab53896270509da80215), for example. 
 Also make sure that the installation path is included in the environment variable `$PYTHONPATH`.
 
@@ -96,7 +95,7 @@ The scripts for this part are located in `prepare_datasets` and they are expecte
     $ python prepare_datasets/download_inloc.py
     $ ./download_matterport.sh
 
-**Step 2**: *Using MATLAB*, run the following scripts that will generate the panorama images for both datasets. They will be stored in the new directories `$INLOC_ROOT/DUC1/panoramas` and `$INLOC_ROOT/DUC2/panoramas` for the InLoc dataset, and `$MATTERPORT_ROOT/$building/panoramas` for the Matterport dataset, where `$building` is the ID of either of the 5 buildings that we use from the Matterport dataset to create our own distractor dataset.
+**Step 2**: *Using MATLAB*, run the following scripts that will generate the panorama images for both datasets. They will be stored in the new directories `$INLOC_ROOT/DUC1/panoramas` and `$INLOC_ROOT/DUC2/panoramas` for the InLoc dataset, and `$MATTERPORT_ROOT/$building/panoramas` for the Matterport dataset, where `$building` is the ID of either of the 5 buildings that we use from the Matterport dataset to create our own distractor dataset. Note: we use [PanoBasic toolbox](https://github.com/yindaz/PanoBasic)  to render panoramas for Matterport dataset.
 
     $ run('prepare_datasets/render_panos_inloc.m')
     $ run('prepare_datasets/render_panos_matterport.m')

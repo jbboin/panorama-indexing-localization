@@ -15,6 +15,8 @@ function [sphereImg, validMap] = im2Sphere(im, imHoriFOV, sphereW, sphereH, x, y
 %   sphereImg: the output panorama image
 %   validMap: the valid region on sphereImg. so the final image should be
 %   sphereImg.*validMap.
+% taken from https://github.com/yindaz/PanoBasic/tree/master/Projection
+% modified to fit the purposes of this project
 
 % map pixel in panorama to viewing direction
 [TX TY] = meshgrid(1:sphereW, 1:sphereH);
