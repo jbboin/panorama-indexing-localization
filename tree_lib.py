@@ -2,15 +2,25 @@ import numpy as np
 import os
 import sys
 import threading
-import json
 from collections import Counter
-from Queue import PriorityQueue
+
+try:
+    from Queue import PriorityQueue  # Python 2
+except ImportError:
+    from queue import PriorityQueue    # Python 3
+
 import pyflann
 import faiss
 
 
 class Node(object):
     def __init__(self, descriptor=None, pano_list=[], ids=[]):
+        """
+
+        :param descriptor:
+        :param pano_list:
+        :param ids:
+        """
         self.descriptor = descriptor
         self.ids = ids
         self.pano_list = pano_list
@@ -21,7 +31,13 @@ class Node(object):
         self.children.append(obj)
 
 
-def compute_ap(matches, num_pos_matches=None):
+def compute_ap(matches, num_pos_matches= None):
+    """
+
+    :param matches: list
+    :param num_pos_matches: int
+    :return:
+    """
     pos_indices = np.where(matches)[0]
     if num_pos_matches is None:
         num_pos_matches = len(pos_indices)
@@ -47,6 +63,12 @@ def compute_ap(matches, num_pos_matches=None):
 
 
 def compute_patk(matches, k):
+    """
+
+    :param matches: list
+    :param k: float
+    :return: float
+    """
     num_matches = 0
     for x in matches[:k]:
         if x:
@@ -217,7 +239,24 @@ def single_stage_evaluation(query_indices, query_id_to_positive_classes, queries
     print('%.2f,%.2f' % (m_a_p, m_pat1))
 
 
-def multi_stage_evaluation(stage_names, query_indices, query_id_to_positive_classes, queries, root, num_clusters, use_ratio=False):
+def multi_stage_evaluation(stage_names,
+                           query_indices,
+                           query_id_to_positive_classes,
+                           queries,
+                           root,
+                           num_clusters,
+                           use_ratio=False):
+    """
+
+    :param stage_names:
+    :param query_indices:
+    :param query_id_to_positive_classes:
+    :param queries:
+    :param root:
+    :param num_clusters:
+    :param use_ratio:
+    :return:
+    """
     ap_values = []
     pat1_values = []
     num_desc = []
@@ -259,10 +298,24 @@ def multi_stage_evaluation(stage_names, query_indices, query_id_to_positive_clas
     print('%s,db_48,%s,%.2f,%.2f,%.2f,0.00,0.00' % ('/'.join(stage_names), '/'.join([str(x) for x in num_clusters]), np.mean(num_desc), m_a_p, m_pat1))
 
 
-# Version of multi_stage_evaluation that only allows a fixed number of clusters per stage, but it supports all types
-# of trees, even if leaf nodes aren't all at the same height. Gives the same results as multi_stage_evaluation if the
-# number of clusters per stage is set to a fixed value in multi_stage_evaluation.
-def multi_stage_evaluation_extended_rank_based(stage_names, query_indices, query_id_to_positive_classes, queries, root, num_clusters):
+def multi_stage_evaluation_extended_rank_based(stage_names,
+                                               query_indices,
+                                               query_id_to_positive_classes,
+                                               queries,
+                                               root,
+                                               num_clusters):
+    """
+    Version of multi_stage_evaluation that only allows a fixed number of clusters per stage, but it supports all types
+    of trees, even if leaf nodes aren't all at the same height. Gives the same results as multi_stage_evaluation if the
+    number of clusters per stage is set to a fixed value in multi_stage_evaluation.
+    :param stage_names:
+    :param query_indices:
+    :param query_id_to_positive_classes:
+    :param queries:
+    :param root:
+    :param num_clusters:
+    :return:
+    """
     ap_values = []
     pat1_values = []
     num_desc = []
@@ -310,9 +363,23 @@ def multi_stage_evaluation_extended_rank_based(stage_names, query_indices, query
         print('%.2f,%.2f,%.2f' % (np.mean(num_desc), m_a_p, m_pat1))
 
 
-# Version of multi_stage_evaluation_extended_rank_based that uses the distribution of distances at each stage, instead
-# of the top k
-def multi_stage_evaluation_extended_dist_based(stage_names, query_indices, query_id_to_positive_classes, queries, root, dist_threshold):
+def multi_stage_evaluation_extended_dist_based(stage_names,
+                                               query_indices,
+                                               query_id_to_positive_classes,
+                                               queries,
+                                               root,
+                                               dist_threshold):
+    """
+    Version of multi_stage_evaluation_extended_rank_based that uses the distribution of distances at each stage, instead
+    of the top k
+    :param stage_names:
+    :param query_indices:
+    :param query_id_to_positive_classes:
+    :param queries:
+    :param root:
+    :param dist_threshold:
+    :return:
+    """
     ap_values = []
     pat1_values = []
     num_desc = []
@@ -368,8 +435,28 @@ def l2_sq_dist(x, y):
     return (x-y).dot(x-y)
 
 
-def flann_pano_list_retrieval(root, query_desc, dist_fun, num_panos, leaf_nodes_max, complete_list=True,
-                              all_leaf_exploration_mode=False, pull_node_at_every_step=False, use_internal_nodes=False):
+def flann_pano_list_retrieval(root,
+                              query_desc,
+                              dist_fun,
+                              num_panos,
+                              leaf_nodes_max,
+                              complete_list=True,
+                              all_leaf_exploration_mode=False,
+                              pull_node_at_every_step=False,
+                              use_internal_nodes=False):
+    """
+
+    :param root:
+    :param query_desc:
+    :param dist_fun:
+    :param num_panos:
+    :param leaf_nodes_max:
+    :param complete_list:
+    :param all_leaf_exploration_mode:
+    :param pull_node_at_every_step:
+    :param use_internal_nodes:
+    :return:
+    """
     num_desc_q = 0
 
     branch_queue = PriorityQueue()
@@ -454,9 +541,32 @@ def evaluate_ranked_lists(pano_retrieved_lists, pos_classes_lists):
     return m_a_p, m_pat1
 
 
-def flann_type_evaluation(dist_fun, stage_names, query_indices, query_id_to_positive_classes, queries, root,
-                          leaf_nodes_max, complete_list=True, all_leaf_exploration_mode=False,
-                          pull_node_at_every_step=False, use_internal_nodes=False):
+def flann_type_evaluation(dist_fun,
+                          stage_names,
+                          query_indices,
+                          query_id_to_positive_classes,
+                          queries,
+                          root,
+                          leaf_nodes_max,
+                          complete_list=True,
+                          all_leaf_exploration_mode=False,
+                          pull_node_at_every_step=False,
+                          use_internal_nodes=False):
+    """
+
+    :param dist_fun:
+    :param stage_names:
+    :param query_indices:
+    :param query_id_to_positive_classes:
+    :param queries:
+    :param root:
+    :param leaf_nodes_max:
+    :param complete_list:
+    :param all_leaf_exploration_mode:
+    :param pull_node_at_every_step:
+    :param use_internal_nodes:
+    :return:
+    """
     # Get number of panoramas (for early stopping when getting the retrieved lists)
     pano_ids = set()
     for node in root.children:
@@ -485,6 +595,16 @@ def flann_type_evaluation(dist_fun, stage_names, query_indices, query_id_to_posi
 
 
 def pq_evaluation(query_indices, query_id_to_positive_classes, view_info, queries, dataset, num_bytes):
+    """
+    Evalutes with respect to mAP and at position 1 the returned results from FAISS
+    :param query_indices:
+    :param query_id_to_positive_classes:
+    :param view_info:
+    :param queries:
+    :param dataset:
+    :param num_bytes:
+    :return:
+    """
     pos_classes = []
     for query_idx in query_indices:
         pos_classes.append(query_id_to_positive_classes[str(query_idx)])
@@ -511,6 +631,12 @@ def pq_evaluation(query_indices, query_id_to_positive_classes, view_info, querie
 
 
 def serialize_flann_index(index_file_name, dataset):
+    """
+
+    :param index_file_name: str
+    :param dataset: np.ndarray
+    :return:
+    """
     global captured_stdout
     # Create pipe and dup2() the write end of it on top of stdout, saving a copy
     # of the old stdout

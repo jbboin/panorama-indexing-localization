@@ -4,7 +4,7 @@ import json
 
 import config
 
-dataset_names = ['17DRP5sb8fy','1LXtFkjw3qL','1pXnuDYAj8r','29hnd4uzFmX','2azQ1b91cZZ']
+dataset_names = ['17DRP5sb8fy', '1LXtFkjw3qL', '1pXnuDYAj8r', '29hnd4uzFmX', '2azQ1b91cZZ']
 
 output_dir = os.path.join(config.MATTERPORT_ROOT, 'distractor_dataset')
 
@@ -31,7 +31,7 @@ with open(os.path.join(output_dir, 'view_poses.json'), 'w') as f:
     json.dump(full_data, f)
 
 # Generate data_file
-feature_data = np.empty((sum(num_images),2048), dtype=np.float32)
+feature_data = np.empty((sum(num_images), 2048), dtype=np.float32)
 for i, dataset_name in enumerate(dataset_names):
     lo = sum(num_images[:i])
     hi = sum(num_images[:i+1])

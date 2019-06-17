@@ -1,5 +1,6 @@
 // Author Dmytro Bobkov, dmytro.bobkov@tum.de
-// Chair of Media Technology, Technical University of Munich, 2017-2018
+// Chair of Media Technology, Technical University of Munich, 2018-2019
+// Parts of these were done while being at research visit to group of Bernd Girod IVMS at Stanford University
 
 #include <iostream>
 #include <fstream>
@@ -40,11 +41,11 @@ parseCommandLineOptions(int argc,
 {
     po::options_description desc("Allowed options");
     desc.add_options()
-            ("in_pano_dir", po::value<std::string>(), "Input pano directory")
-            ("in_poses_dir", po::value<std::string>(), "Input poses directory")
-            ("out_rgb_view_dir", po::value<std::string>(), "Outdirecotry")
+            ("in_pano_dir", po::value<std::string>()->required(), "Input pano directory")
+            ("in_poses_dir", po::value<std::string>()->required(), "Input poses directory")
+            ("out_rgb_view_dir", po::value<std::string>()->required(), "Out directory for the rendered views")
             ("render_views_from_panoramas", po::bool_switch(&render_views_from_panoramas), "Optional argument for rendering")
-            ("num_yaw_angles", po::value<int>(), "num_yaw_angles");;
+            ("num_yaw_angles", po::value<int>()->required(), "num_yaw_angles");;
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);

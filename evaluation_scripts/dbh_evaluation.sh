@@ -5,7 +5,7 @@ MATTERPORT_ROOT="$(python -c 'import config;print(config.MATTERPORT_ROOT)')"
 
 dataset_array=("DUC1" "DUC2")
 
-bf_array=(64 128 256 512 1024)
+bf_array=(64 128 256 512 1024) # array of different branching factors
 
 for dataset in "${dataset_array[@]}"
 do  
@@ -47,6 +47,6 @@ do
             --bf $bf
 
     done
-    echo
+    echo "Done ${dataset}"
 
 done

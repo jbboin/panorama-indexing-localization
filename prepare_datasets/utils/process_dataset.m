@@ -1,5 +1,7 @@
 function process_dataset(dim_pano, matterport_folder, dataset_name)
 % this is the function we use to process datasets
+% taken from https://github.com/yindaz/PanoBasic/tree/master/Projection
+% modified to fit the purposes of this project
 %% Input parameters
 pano_fold_out = 'panoramas';
 fold_skybox = 'matterport_skybox_images';

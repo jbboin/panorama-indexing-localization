@@ -1,6 +1,6 @@
 # Author Dmytro Bobkov
 # Email dmytro.bobkov@tum.de
-# Modified on 28.02.2018
+# Modified on 28.06.2018
 
 cmake_minimum_required(VERSION 2.8)
 project(view_rendering)
@@ -17,6 +17,12 @@ find_package( OpenCV REQUIRED )
 
 find_package(Boost 1.4 REQUIRED COMPONENTS
         system filesystem program_options graph regex)
+
+
+find_package( Eigen3 REQUIRED ) #
+
+message(WARNING "NOTE: Eigen directory parsed is $ENV{EIGEN3_INCLUDE_DIR}. If it is empty, try setting it to /usr/include/eigen3!")
+INCLUDE_DIRECTORIES ( "$ENV{EIGEN3_INCLUDE_DIR}" ) # /usr/include/eigen3
 
 set(INCLUDE_DIRS
         ${Boost_INCLUDE_DIRS})

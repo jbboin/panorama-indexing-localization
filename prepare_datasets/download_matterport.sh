@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# this file uses scripts/download_mp.py provided by matterport
+# First you need to request access to it at https://github.com/niessner/Matterport
+
 MATTERPORT_ROOT="$(python -c 'import config;print(config.MATTERPORT_ROOT)')"
 
 dataset_id_array=("17DRP5sb8fy" "1LXtFkjw3qL" "1pXnuDYAj8r" "29hnd4uzFmX" "2azQ1b91cZZ")

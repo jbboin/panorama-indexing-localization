@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+""" Evaluation library
+
+"""
+
 from __future__ import print_function
 import sys
 import os
@@ -17,6 +24,12 @@ class ImageHelper(object):
         self.means = means
 
     def prepare_image_and_grid_regions(self, fname, roi=None):
+        """
+
+        :param fname: str
+        :param roi: np.ndarray
+        :return:
+        """
         # Extract image, resize at desired size, and extract roi region if
         # available. Then compute the rmac grid in the net format: ID X Y W H
         I, im_resized = self.load_and_prepare_image(fname, roi)
@@ -35,6 +48,13 @@ class ImageHelper(object):
 
     @staticmethod
     def get_rmac_features(I, R, net):
+        """
+
+        :param I: : np.ndarray
+        :param R: : np.ndarray
+        :param net:
+        :return:
+        """
         net.blobs['data'].reshape(I.shape[0], 3, int(I.shape[2]), int(I.shape[3]))
         net.blobs['data'].data[:] = I
         net.blobs['rois'].reshape(R.shape[0], R.shape[1])
@@ -43,6 +63,12 @@ class ImageHelper(object):
         return np.squeeze(net.blobs['rmac/normalized'].data)
 
     def load_and_prepare_image(self, fname, roi=None):
+        """
+
+        :param fname: : str
+        :param roi:
+        :return:
+        """
         # Read image, get aspect ratio, and resize such as the largest side equals S
         im = cv2.imread(fname)
         im_size_hw = np.array(im.shape[0:2])
@@ -135,6 +161,12 @@ class ImageHelper(object):
 
 class Dataset(object):
     def __init__(self, img_root, two_stage_num_clusters, filename_poses):
+        """
+
+        :param img_root: str
+        :param two_stage_num_clusters: bool
+        :param filename_poses: str
+        """
         self.img_root = img_root
         self.two_stage_num_clusters = two_stage_num_clusters
         self.image_data = self.load_image_data(filename_poses)
@@ -156,6 +188,11 @@ class Dataset(object):
         self.pano_rand_offset = None
 
     def load_image_data(self, filename_poses):
+        """
+
+        :param filename_poses: str
+        :return:
+        """
         # Load image data from JSON file of full dataset and sort by increasing ID value
         #filename_poses = 'view_poses_filtered.json'
         assert os.path.exists(os.path.join(self.img_root, filename_poses)), \
@@ -167,6 +204,11 @@ class Dataset(object):
         return image_data
 
     def set_query_info(self, query_file):
+        """
+
+        :param query_file: str
+        :return:
+        """
         if query_file:
             json_data = json.load(open(query_file))
             for query in json_data['query_views']:
@@ -177,6 +219,11 @@ class Dataset(object):
             self.all_query_info = []
 
     def set_db_info(self, db_file):
+        """
+
+        :param db_file: : str
+        :return:
+        """
         if db_file:
             json_data = json.load(open(db_file))
             for db_entry in json_data['db_views']:
@@ -187,6 +234,12 @@ class Dataset(object):
             self.db_indices = np.arange(len(self.image_data))
 
     def set_retrieval_info(self, query_file, db_file):
+        """
+
+        :param query_file: str
+        :param db_file: str
+        :return:
+        """
         # Get query IDs from the query JSON file
         self.set_query_info(query_file)
         # Get database IDs from the database JSON file
@@ -230,7 +283,14 @@ class Dataset(object):
         self.cluster_info = cluster_info_stages
         return features_stages
 
-    def compute_clusters(self, feat_aggregation, cluster_file=None, randomize=False):
+    def compute_clusters(self, feat_aggregation, cluster_file= None, randomize=False):
+        """
+
+        :param feat_aggregation: str
+        :param cluster_file: str
+        :param randomize: bool
+        :return:
+        """
         assert feat_aggregation.startswith(('none', 'yaw', 'pano', 'room', 'custom')), \
             'Invalid feat_aggregation string'
         cluster_info = []
@@ -357,6 +417,11 @@ class Dataset(object):
 
     @staticmethod
     def get_yaw_from_quaternion(quat):
+        """
+
+        :param quat: list
+        :return:
+        """
         # Returns a yaw value in [-pi, pi]
         return np.arctan2(2.0*(quat[1]*quat[2] + quat[3]*quat[0]),
                           quat[3]*quat[3] - quat[0]*quat[0] - quat[1]*quat[1] + quat[2]*quat[2])
@@ -403,6 +468,12 @@ class PanoRetrievalDataset(Dataset):
         return pano_info
 
     def set_ground_truth_info(self, pano_dist_threshold, ignore_rooms=False):
+        """
+
+        :param pano_dist_threshold: float
+        :param ignore_rooms: bool
+        :return:
+        """
         pano_info = self.get_pano_info()
 
         # Get ground truth information based on panorama location
@@ -443,6 +514,13 @@ class PanoRetrievalDataset(Dataset):
 
 class FeatureExtractor(object):
     def __init__(self, temp_dir, multires, S, L):
+        """
+
+        :param temp_dir: str
+        :param multires: bool
+        :param S:
+        :param L:
+        """
         self.temp_dir = temp_dir
         self.multires = multires
         self.S = S
@@ -451,6 +529,13 @@ class FeatureExtractor(object):
         self.features_dataset = None
 
     def extract_features(self, dataset, image_helper, net):
+        """
+
+        :param dataset: Dataset
+        :param image_helper: ImageHelper
+        :param net:
+        :return:
+        """
         Ss = [self.S, ] if not self.multires else [self.S - 250, self.S, self.S + 250]
         for S in Ss:
             # Set the scale of the image helper

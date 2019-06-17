@@ -6,14 +6,42 @@ By Jean-Baptiste Boin (Stanford University), Dmytro Bobkov (Technical University
 
 *Paper under review*
 
+## Dependencies
 
+###  MATLAB
+Refer to mathworks website.
 
-## Install
+### Python with installed dependencies  
 
 **Prerequisites**:
 - MATLAB
-- Caffe (with Python bindings). Make sure that the installation path is included in the environment variable `$PYTHONPATH`.
-- Request the [Matterport3D dataset](https://github.com/niessner/Matterport) (instructions are given on that project page). This will grant you access to a download script: `download_mp.py`. You should download this file and copy it to the `prepare_datasets` directory in this current repository.
+
+#### Anaconda
+
+Note: we use Python2.7 together with [Anaconda](https://www.anaconda.com/distribution/#linux). 
+
+Conda environment description for painless installation of all packages is given in conda_panorama.yml. Create a new environment by running the following command: `conda env create --file conda_panorama.yml` and thus all dependencies should be done. After that don't forget to run `conda activate panorama_test`.
+
+#### Manual
+
+In case you want to install it from source (not recommended!), you need the following projects:
+
+- Python with installed dependencies (described in requirements.txt). 
+- FAISS, install it by following instructions at https://github.com/facebookresearch/faiss/blob/master/INSTALL.md.
+- Caffe with Python bindings. You can follow instructions from [here](https://gist.github.com/nikitametha/c54e1abecff7ab53896270509da80215), for example. 
+Also make sure that the installation path is included in the environment variable `$PYTHONPATH`.
+
+## Dataset data
+
+### Matterport 3D dataset
+
+Request access to the [Matterport3D dataset](https://github.com/niessner/Matterport) (instructions are given on that project page). This will grant you access to a download script: `download_mp.py`. You should download this file and copy it to the `prepare_datasets` directory in this current repository.
+
+### InLoc dataset
+
+We use [WUSTL Indoor RGBD dataset](https://cvpr17.wijmans.xyz/data) and [InLoc queries](http://www.ok.sc.e.titech.ac.jp/INLOC) (usually abbreviated as the InLoc dataset in the rest of this README) as well as the related data we will generate in this project. Refer to prepare_datasets/download_inloc.py file.
+
+## Project setup
 
 **Step 1**: Clone the repository.
 
@@ -52,8 +80,11 @@ You will need to populate this new file with your own desired paths. (**NOTE:** 
     $ cd build
     $ cmake ..
     $ make
-    $ cd ../..
+    $ cd ../.. # return to the root directory after this
 
+Note that the project has the following dependencies: Eigen3, Boost1.4 and OpenCV.
+
+Tested on Ubuntu 16.04 64-bit and on Mac.
 
 ## Dataset preparation
 
@@ -64,7 +95,7 @@ The scripts for this part are located in `prepare_datasets` and they are expecte
     $ python prepare_datasets/download_inloc.py
     $ ./download_matterport.sh
 
-**Step 2**: *Using MATLAB*, run the following scripts that will generate the panorama images for both datasets. They will be stored in the new directories `$INLOC_ROOT/DUC1/panoramas` and `$INLOC_ROOT/DUC2/panoramas` for the InLoc dataset, and `$MATTERPORT_ROOT/$building/panoramas` for the Matterport dataset, where `$building` is the ID of either of the 5 buildings that we use from the Matterport dataset to create our own distractor dataset.
+**Step 2**: *Using MATLAB*, run the following scripts that will generate the panorama images for both datasets. They will be stored in the new directories `$INLOC_ROOT/DUC1/panoramas` and `$INLOC_ROOT/DUC2/panoramas` for the InLoc dataset, and `$MATTERPORT_ROOT/$building/panoramas` for the Matterport dataset, where `$building` is the ID of either of the 5 buildings that we use from the Matterport dataset to create our own distractor dataset. Note: we use [PanoBasic toolbox](https://github.com/yindaz/PanoBasic)  to render panoramas for Matterport dataset.
 
     $ run('prepare_datasets/render_panos_inloc.m')
     $ run('prepare_datasets/render_panos_matterport.m')
@@ -108,13 +139,15 @@ The scripts for this part are located in `evaluation_scripts` and they are expec
 
 The actual values that are printed in the console usually consist of a set of 3 values: the number of descriptors, the mAP and the precision at 1. The mAP was the metric reported in our work, and these scripts will separately report results for the `DUC1` and `DUC2` part of the InLoc dataset. As mentioned, in order to get the final mAP results, it is necessary to compute a weighted average using the number of queries for each part. As such, the results that we reported are:
 
-    mAP  = (198 * mAP(DUC1) + 130 * mAP(DUC2)) / (198+130)
+    N1 = 130 # num queries in DUC1
+    N2 = 198 # num queries in DUC2
+    mAP = (N2 * mAP(DUC1) + N1 * mAP(DUC2)) / (N1 + N2)
 
-**Step 1**: Sub-sampling experiment. Results reported in Sec. III.B. and Fig. 4.
+**Step 1**: Sub-sampling experiment. Results reported in Sec. III.B. and Fig. 4 of the paper.
 
     $ ./evaluation_scripts/dataset_subsampling_evaluation.sh
 
-**Step 2**: Aggregation experiment. Results reported in Sec. III.B. and Fig. 4.
+**Step 2**: Aggregation experiment. Results reported in Sec. III.B. and Fig. 4 of the paper.
 
     $ ./evaluation_scripts/dataset_aggregation_evaluation.sh
 
@@ -122,22 +155,22 @@ The actual values that are printed in the console usually consist of a set of 3 
 
     $ ./evaluation_scripts/flann_autotune.sh
 
-**Step 3**: FLANN evaluation. Results reported in Sec. III.C.1 and Fig. 5.
+**Step 3**: FLANN evaluation. Results reported in Sec. III.C.1 and Fig. 5 of the paper.
 
     $ ./evaluation_scripts/flann_evaluation.sh
 
-**Step 5**: DBH evaluation. Results reported in Sec. III.C.1 and Fig. 5.
+**Step 5**: DBH evaluation. Results reported in Sec. III.C.1 and Fig. 5 of the paper.
 
     $ ./evaluation_scripts/dbh_evaluation.sh
 
-**Step 6**: Number of rooms recommended for each part of the InLoc dataset (This is used for the SBH index and the values are hardcoded in the SBH evaluation script, see next step). Results reported in Sec. III.C.2.
+**Step 6**: Number of rooms recommended for each part of the InLoc dataset (This is used for the SBH index and the values are hardcoded in the SBH evaluation script, see next step). Results reported in Sec. III.C.2 of the paper.
 
     $ python evaluation_scripts/get_number_rooms.py
 
-**Step 7**: SBH evaluation. Results reported in Sec. III.C.2 and Fig. 6.
+**Step 7**: SBH evaluation. Results reported in Sec. III.C.2 and Fig. 6 of the paper.
 
     $ ./evaluation_scripts/sbh_evaluation.sh
 
-**Step 8**: PQ evaluation. Results reported in Sec. III.D and Table II.
+**Step 8**: PQ evaluation. Results reported in Sec. III.D and Table II of the paper.
 
     $ ./evaluation_scripts/pq_evaluation.sh

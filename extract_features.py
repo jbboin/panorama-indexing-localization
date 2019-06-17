@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+""" Extraction of features
+"""
+
 import evaluate_lib
 import tree_lib
 

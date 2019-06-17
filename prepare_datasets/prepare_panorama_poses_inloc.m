@@ -58,8 +58,6 @@ for b = 1:numel(buildings)
 
         json_filename = sprintf('%s/%s.json', folder_pose, scan_name_clean);
 
-        % still not sure what S means. More info here 
-        % https://w3.leica-geosystems.com/kb/?guid=5532D590-114C-43CD-A55F-FE79E5937CB2
         scanner_position_local = S(1,:);
         scanner_axis_local = S(2:4,1:3);
         room = 'test_room'; % dummy room label
