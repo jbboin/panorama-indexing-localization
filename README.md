@@ -24,11 +24,11 @@ Conda environment description for painless installation of all packages is given
 
 #### Manual
 
-In case you want to install it from source (not recommended!), you need the following projects:
+In case you want to install it from source (not recommended!), you need the following:
 
-- Python with installed dependencies (described in requirements.txt). 
-- FAISS, install it by following instructions at https://github.com/facebookresearch/faiss/blob/master/INSTALL.md.
-- Caffe with Python bindings. You can follow instructions from [here](https://gist.github.com/nikitametha/c54e1abecff7ab53896270509da80215), for example. 
+- Python2.7 
+- [FAISS](https://github.com/facebookresearch/faiss). Instructions to install it can be found [here](https://github.com/facebookresearch/faiss/blob/master/INSTALL.md).
+- [Caffe](https://caffe.berkeleyvision.org) with Python bindings. You can follow instructions from [here](https://gist.github.com/nikitametha/c54e1abecff7ab53896270509da80215), for example. 
 Also make sure that the installation path is included in the environment variable `$PYTHONPATH`.
 
 ## Dataset data
