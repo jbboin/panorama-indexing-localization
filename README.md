@@ -1,10 +1,10 @@
 # panorama-indexing-localization
 
-[**Efficient Panorama Database Indexing for Indoor Localization**](https://web.stanford.edu/~jbboin/doc/2019_panorama_indexing.pdf)
+[**Efficient Panorama Database Indexing for Indoor Localization**](https://web.stanford.edu/~jbboin/doc/2019_CBMI.pdf)
 
 By Jean-Baptiste Boin (Stanford University), Dmytro Bobkov (Technical University of Munich), Eckehard Steinbach (Technical University of Munich), Bernd Girod (Stanford University)
 
-*Paper under review*
+*This paper was accepted at CBMI 2019 (best paper session).*
 
 ## Dependencies
 
